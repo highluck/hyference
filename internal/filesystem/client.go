@@ -8,13 +8,13 @@ import (
 
 var _ Client = &s3wrapper.Client{}
 
-type FileSystemClientTypeMap map[string]FileSystemClientType
-type FileSystemClientType string
+type ClientTypeMap map[string]ClientType
+type ClientType string
 
-const S3 = FileSystemClientType("s3")
-const UnKnown = FileSystemClientType("unknown")
+const S3 = ClientType("s3")
+const UnKnown = ClientType("unknown")
 
-var typeMap = FileSystemClientTypeMap{
+var typeMap = ClientTypeMap{
 	"s3": S3,
 }
 
@@ -28,7 +28,7 @@ type ClientDetail struct {
 	Region string
 }
 
-func GetFileSystemClientType(types string) FileSystemClientType {
+func GetFileSystemClientType(types string) ClientType {
 	typeNormal := strings.ToLower(types)
 	if v, ok := typeMap[typeNormal]; ok {
 		return v

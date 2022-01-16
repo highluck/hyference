@@ -9,13 +9,13 @@ import (
 
 type Config struct {
 	Port                   int                     `json:"port"`
-	DebugLabel             string                  `json:"debug_label"`
-	MlLibType              string                  `json:"ml_lib_type"`
-	ModelName              string                  `json:"model_name"`
-	ModelPath              string                  `json:"model_path"`
-	FileSystemClientType   string                  `json:"file_system_type"`
-	FileSystemClientDetail filesystem.ClientDetail `json:"file_system_client_detail"`
-	ParameterType          string                  `json:"parameter_type"`
+	DebugLabel             string                  `json:"debugLabel"`
+	MlLibType              string                  `json:"mlLibType"`
+	ModelName              string                  `json:"modelName"`
+	ModelPath              string                  `json:"modelPath"`
+	FileSystemClientType   string                  `json:"fileSystemType"`
+	FileSystemClientDetail filesystem.ClientDetail `json:"fileSystemClientDetail"`
+	ParameterType          string                  `json:"parameterType"`
 	Uri                    string                  `json:"uri"`
 }
 
@@ -26,7 +26,7 @@ const IntType = ParameterType("int")
 const LongType = ParameterType("long")
 const FloatType = ParameterType("float")
 
-func (cfg Config) GetMlLibType() ml.MlLibType {
+func (cfg Config) GetMlLibType() ml.LibType {
 	if v, ok := ml.LibTypes[strings.ToLower(cfg.MlLibType)]; ok {
 		return v
 	}

@@ -1,21 +1,18 @@
 package container
 
 import (
-	config2 "github.com/hyference/internal/config"
-	modules2 "github.com/hyference/internal/modules"
+	"github.com/hyference/internal/config"
+	"github.com/hyference/internal/modules"
 )
 
 type Container struct {
-	Config  config2.Config
-	Modules modules2.Module
+	Config  config.Config
+	Modules modules.Module
 }
 
-func New() Container {
-	config := config2.Config{}
-	modules := modules2.New(config)
-
+func New(config config.Config) Container {
 	return Container{
-		Config: config,
-		Modules: modules,
+		Config:  config,
+		Modules: modules.New(config),
 	}
 }
