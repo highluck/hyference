@@ -25,6 +25,7 @@ const StringType = ParameterType("string")
 const IntType = ParameterType("int")
 const LongType = ParameterType("long")
 const FloatType = ParameterType("float")
+const StructType = ParameterType("struct")
 
 func (cfg Config) GetMlLibType() ml.LibType {
 	if v, ok := ml.LibTypes[strings.ToLower(cfg.MlLibType)]; ok {
