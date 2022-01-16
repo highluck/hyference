@@ -10,7 +10,7 @@ import "C"
 
 import (
 	"fmt"
-	errors2 "github.com/hyference/internal/errors"
+	"github.com/hyference/errors"
 	"regexp"
 	"strconv"
 	"strings"
@@ -61,7 +61,7 @@ func New(file string) (*Model, error) {
 func (m *Model) Predict(keyword string) (Result, error) {
 	if !m.isInitialized {
 		return Result{},
-			errors2.New("fast text predict err")
+			errors.New("fast text predict err")
 	}
 
 	resultSize := 32
@@ -77,7 +77,7 @@ func (m *Model) Predict(keyword string) (Result, error) {
 	)
 	if status != 0 {
 		return Result{},
-			errors2.New("fast text predict err ")
+			errors.New("fast text predict err ")
 	}
 
 	label := C.GoString(result)
@@ -92,7 +92,7 @@ func (m *Model) Predict(keyword string) (Result, error) {
 func (m *Model) GetSentenceVector(keyword string) ([]float64, error) {
 
 	if !m.isInitialized {
-		return nil, errors2.New("The FastText model needs to be initialized first. It's should be done inside the `New()` function")
+		return nil, errors.New("The FastText model needs to be initialized first. It's should be done inside the `New()` function")
 	}
 
 	vecDim := C.ft_get_vector_dimension()

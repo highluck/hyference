@@ -4,7 +4,7 @@ import (
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/s3"
-	"github.com/hyference/internal/errors"
+	errors2 "github.com/hyference/errors"
 	"github.com/rs/zerolog/log"
 	"io/fs"
 	"io/ioutil"
@@ -48,18 +48,18 @@ func (c *Client) GetByAlphaIgnore(path string) (*s3.GetObjectOutput, error) {
 }
 
 func (c *Client) DownloadModel(model string, s3ModelPath string) error {
-	op := errors.GetMethodName()
+	op := errors2.GetMethodName()
 	s3ModelResponse, err := c.Get(s3ModelPath)
 	if err != nil {
-		return errors.Wrapper(err, op)
+		return errors2.Wrapper(err, op)
 	}
 
 	modelBytes, err := ioutil.ReadAll(s3ModelResponse.Body)
 	if err != nil {
-		return errors.Wrapper(err, op)
+		return errors2.Wrapper(err, op)
 	}
 	if err := ioutil.WriteFile(model, modelBytes, fs.ModePerm); err != nil {
-		return errors.Wrapper(err, op)
+		return errors2.Wrapper(err, op)
 	}
 	return nil
 }

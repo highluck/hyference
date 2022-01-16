@@ -1,7 +1,7 @@
 package inference
 
 import (
-	"github.com/hyference/internal/errors"
+	errors2 "github.com/hyference/errors"
 	"github.com/hyference/internal/filesystem"
 	"github.com/hyference/internal/modules"
 	"github.com/hyference/ml/fasttext_wrapper"
@@ -41,15 +41,15 @@ func (i *FastText) initializeModel() (*fasttext_wrapper.Model, error) {
 
 func (i *FastText) Inference(input interface{}) (interface{}, error) {
 
-	op := errors.GetMethodName()
+	op := errors2.GetMethodName()
 	content, ok := input.(string)
 	if ok == false || content == "" {
-		return fasttext_wrapper.Result{}, errors.Wrapper(errors.New("contents empty"), op)
+		return fasttext_wrapper.Result{}, errors2.Wrapper(errors2.New("contents empty"), op)
 	}
 
 	predict, err := i.model.Predict(content)
 	if err != nil {
-		return fasttext_wrapper.Result{}, errors.Wrapper(err, op)
+		return fasttext_wrapper.Result{}, errors2.Wrapper(err, op)
 	}
 	return predict, nil
 }

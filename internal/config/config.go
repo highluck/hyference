@@ -15,7 +15,7 @@ type Config struct {
 	ModelPath              string                  `json:"modelPath"`
 	FileSystemClientType   string                  `json:"fileSystemType"`
 	FileSystemClientDetail filesystem.ClientDetail `json:"fileSystemClientDetail"`
-	ParameterType          string                  `json:"parameterType"`
+	ParameterType          ParameterType           `json:"parameterType"`
 	Uri                    string                  `json:"uri"`
 }
 
