@@ -1,9 +1,7 @@
 package https
 
 import (
-	"context"
 	"fmt"
-	context2 "github.com/daangn/search-flow/internal/context"
 	jsoniter "github.com/json-iterator/go"
 	"strings"
 	"testing"
@@ -18,8 +16,6 @@ func Test_responseToByte(t *testing.T) {
 		Blahblah: "goood",
 	}
 
-	ctx := context2.ContextOf(context.Background(), "", "",
-		"", "", "", "")
 	response := SuccessWithResult(result, nil)
 
 	toByte := response.ToByte()

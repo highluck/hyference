@@ -1,12 +1,13 @@
 package server
 
 import (
+	"github.com/hyference/config"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
 	"os"
 )
 
-func Server(config Config) {
+func Server(config config.Config) {
 	var level zerolog.Level
 	if config.DebugLabel == "warn" {
 		level = zerolog.WarnLevel

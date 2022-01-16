@@ -4,6 +4,7 @@ import (
 	"context"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
+	"github.com/hyference/config"
 	"github.com/hyference/https"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"github.com/rs/zerolog/log"
@@ -19,7 +20,7 @@ type HttpServer struct {
 	server *http.Server
 }
 
-func NewHttpServer(config Config) (*HttpServer, error) {
+func NewHttpServer(config config.Config) (*HttpServer, error) {
 	router := chi.NewRouter()
 	router.Use(middleware.RequestID)
 	router.Use(middleware.Timeout(60 * time.Minute))

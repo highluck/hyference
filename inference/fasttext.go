@@ -17,7 +17,7 @@ type FastText struct {
 	client    filesystem.ClientInterface
 }
 
-func NewFastText(modelName string, modelPath string, module modules.Module) *FastText {
+func NewFastText(modelName string, modelPath string, module *modules.Module) *FastText {
 	inference := &FastText{
 		client:    module.Client,
 		modelName: modelName,

@@ -17,12 +17,12 @@ type Client struct {
 	env         string
 	countryCode string
 	s3          *s3.S3
-	s3Config    S3Config
+	s3Config    filesystem.S3Config
 }
 
-func New(cfg S3Config) *Client {
+func New(cfg filesystem.S3Config) *Client {
 	awsCfg := aws.NewConfig()
-	awsCfg.Region = aws.String(cfg.region)
+	awsCfg.Region = aws.String(cfg.BucketName)
 	awsCfg.S3ForcePathStyle = aws.Bool(true)
 	sess := session.Must(session.NewSession(awsCfg))
 	newS3 := s3.New(sess, &aws.Config{})
@@ -33,17 +33,17 @@ func New(cfg S3Config) *Client {
 }
 
 func (c *Client) Get(path string) (*s3.GetObjectOutput, error) {
-	log.Info().Msgf("bucket : %s, key : %s", c.s3Config.bucketName, path)
+	log.Info().Msgf("bucket : %s, key : %s", c.s3Config.BucketName, path)
 
 	res, err := c.s3.GetObject(&s3.GetObjectInput{
-		Bucket: aws.String(c.s3Config.bucketName),
+		Bucket: aws.String(c.s3Config.BucketName),
 		Key:    aws.String(normalizePath(path)),
 	})
 	return res, err
 }
 
 func (c *Client) GetByAlphaIgnore(path string) (*s3.GetObjectOutput, error) {
-	log.Info().Msgf("bucket : %s, key : %s", c.s3Config.bucketName, path)
+	log.Info().Msgf("bucket : %s, key : %s", c.s3Config.BucketName, path)
 
 	res, err := c.s3.GetObject(&s3.GetObjectInput{
 		Bucket: aws.String("karrot-search-bucket-prod"),
