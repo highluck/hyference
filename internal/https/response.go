@@ -1,7 +1,7 @@
 package https
 
 import (
-	"github.com/hyference/errors"
+	errors2 "github.com/hyference/internal/errors"
 	jsoniter "github.com/json-iterator/go"
 	"github.com/rs/zerolog/log"
 )
@@ -11,9 +11,9 @@ type Result struct {
 }
 
 type Response struct {
-	Code    errors.ResponseStatus `json:"code"`
-	Message string                `json:"message"`
-	Result  interface{}           `json:"result"`
+	Code    errors2.ResponseStatus `json:"code"`
+	Message string                 `json:"message"`
+	Result  interface{}            `json:"result"`
 }
 
 func SuccessWithResult(result interface{}, err error) Response {
@@ -23,7 +23,7 @@ func SuccessWithResult(result interface{}, err error) Response {
 
 	return Response{
 		Result: result,
-		Code:   errors.Success,
+		Code:   errors2.Success,
 	}
 }
 
@@ -32,14 +32,14 @@ func SuccessResponse(err error) Response {
 		return Fail(err)
 	}
 	return Response{
-		Code: errors.Success,
+		Code: errors2.Success,
 	}
 }
 
 func Fail(err error) Response {
 	log.Err(err).Send()
 	return Response{
-		Code:    errors.ParseHttpStatus(err),
+		Code:    errors2.ParseHttpStatus(err),
 		Message: err.Error(),
 	}
 }

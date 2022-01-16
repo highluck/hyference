@@ -1,4 +1,4 @@
-package filesystem
+package s3wrapper
 
 type S3Config struct {
 	Region     string

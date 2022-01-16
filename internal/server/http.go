@@ -4,8 +4,10 @@ import (
 	"context"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
-	"github.com/hyference/config"
-	"github.com/hyference/https"
+	"github.com/hyference/internal/container"
+	"github.com/hyference/internal/handler"
+	"github.com/hyference/internal/https"
+	"github.com/hyference/internal/inference"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"github.com/rs/zerolog/log"
 	"net/http"
@@ -20,7 +22,8 @@ type HttpServer struct {
 	server *http.Server
 }
 
-func NewHttpServer(config config.Config) (*HttpServer, error) {
+func NewHttpServer(container container.Container) (*HttpServer, error) {
+	config := container.Config
 	router := chi.NewRouter()
 	router.Use(middleware.RequestID)
 	router.Use(middleware.Timeout(60 * time.Minute))
@@ -36,6 +39,8 @@ func NewHttpServer(config config.Config) (*HttpServer, error) {
 		Addr:    ":" + strconv.Itoa(config.Port),
 		Handler: router,
 	}
+	inferenceService := inference.New(config, container.Modules)
+	handler.Route(router, config, inferenceService)
 	return &HttpServer{
 		server: server,
 	}, nil

@@ -1,10 +1,10 @@
 package inference
 
 import (
-	"github.com/hyference/errors"
-	"github.com/hyference/filesystem"
+	"github.com/hyference/internal/errors"
+	"github.com/hyference/internal/filesystem"
+	"github.com/hyference/internal/modules"
 	"github.com/hyference/ml/fasttext_wrapper"
-	"github.com/hyference/modules"
 	"github.com/rs/zerolog/log"
 )
 
@@ -14,10 +14,10 @@ type FastText struct {
 	model     *fasttext_wrapper.Model
 	modelName string
 	modelPath string
-	client    filesystem.ClientInterface
+	client    filesystem.Client
 }
 
-func NewFastText(modelName string, modelPath string, module *modules.Module) *FastText {
+func NewFastText(modelName string, modelPath string, module modules.Module) *FastText {
 	inference := &FastText{
 		client:    module.Client,
 		modelName: modelName,

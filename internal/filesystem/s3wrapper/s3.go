@@ -4,23 +4,18 @@ import (
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/s3"
-	"github.com/hyference/errors"
-	"github.com/hyference/filesystem"
+	"github.com/hyference/internal/errors"
 	"github.com/rs/zerolog/log"
 	"io/fs"
 	"io/ioutil"
 )
 
-var _ filesystem.ClientInterface = &Client{}
-
 type Client struct {
-	env         string
-	countryCode string
-	s3          *s3.S3
-	s3Config    filesystem.S3Config
+	s3       *s3.S3
+	s3Config S3Config
 }
 
-func New(cfg filesystem.S3Config) *Client {
+func New(cfg S3Config) *Client {
 	awsCfg := aws.NewConfig()
 	awsCfg.Region = aws.String(cfg.BucketName)
 	awsCfg.S3ForcePathStyle = aws.Bool(true)

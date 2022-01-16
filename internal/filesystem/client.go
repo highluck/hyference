@@ -2,8 +2,11 @@ package filesystem
 
 import (
 	"github.com/aws/aws-sdk-go/service/s3"
+	"github.com/hyference/internal/filesystem/s3wrapper"
 	"strings"
 )
+
+var _ Client = &s3wrapper.Client{}
 
 type FileSystemClientTypeMap map[string]FileSystemClientType
 type FileSystemClientType string
@@ -15,7 +18,7 @@ var typeMap = FileSystemClientTypeMap{
 	"s3": S3,
 }
 
-type ClientInterface interface {
+type Client interface {
 	Get(path string) (*s3.GetObjectOutput, error)
 	DownloadModel(model string, s3ModelPath string) error
 }
@@ -31,4 +34,19 @@ func GetFileSystemClientType(types string) FileSystemClientType {
 		return v
 	}
 	return UnKnown
+}
+
+func New(clientType string, detail ClientDetail) Client {
+	types := GetFileSystemClientType(clientType)
+	switch types {
+	case S3:
+		s3Config := s3wrapper.S3Config{
+			Region:     detail.Region,
+			BucketName: detail.Bucket,
+		}
+		client := s3wrapper.New(s3Config)
+		return client
+	default:
+		return nil
+	}
 }

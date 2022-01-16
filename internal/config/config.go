@@ -1,9 +1,8 @@
 package config
 
 import (
-	"github.com/hyference/filesystem"
+	"github.com/hyference/internal/filesystem"
 	"github.com/hyference/ml"
-	"github.com/hyference/modules"
 	"log"
 	"strings"
 )
@@ -16,8 +15,16 @@ type Config struct {
 	ModelPath              string                  `json:"model_path"`
 	FileSystemClientType   string                  `json:"file_system_type"`
 	FileSystemClientDetail filesystem.ClientDetail `json:"file_system_client_detail"`
-	modules                *modules.Module
+	ParameterType          string                  `json:"parameter_type"`
+	Uri                    string                  `json:"uri"`
 }
+
+type ParameterType string
+
+const StringType = ParameterType("string")
+const IntType = ParameterType("int")
+const LongType = ParameterType("long")
+const FloatType = ParameterType("float")
 
 func (cfg Config) GetMlLibType() ml.MlLibType {
 	if v, ok := ml.LibTypes[strings.ToLower(cfg.MlLibType)]; ok {
@@ -26,11 +33,4 @@ func (cfg Config) GetMlLibType() ml.MlLibType {
 
 	log.Fatalf("Not supported Lib %s", cfg.MlLibType)
 	return ml.UnKnown
-}
-
-func (cfg Config) GetModule() *modules.Module {
-	if cfg.modules == nil {
-		cfg.modules = &modules.Module{}
-	}
-	return cfg.modules
 }
