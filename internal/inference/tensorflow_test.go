@@ -21,6 +21,7 @@ func Test_tensor(t *testing.T) {
 	if err != nil {
 		panic(err)
 	}
+
 	output, err := sess.Run(nil, []tf.Output{c}, nil)
 	if err != nil {
 		panic(err)

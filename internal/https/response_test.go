@@ -29,7 +29,9 @@ func Test_responseToByte(t *testing.T) {
 	println("====================")
 	println(string(toByte))
 	response2 := &Response{}
-	jsoniter.Unmarshal(toByte, response2)
+	if err := jsoniter.Unmarshal(toByte, response2); err != nil {
+		return
+	}
 
 	println("====================")
 	println(fmt.Sprintf("code : %d", response2.Code))
